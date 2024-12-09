@@ -460,7 +460,11 @@ $.entwine('ss', function($) {
       // default to first button if none given - simulates browser behaviour
       if(!button) button = this.find('.btn-toolbar :submit:first');
 
-      if ($(button).is("button")) {
+      // set button to "submitting" state
+      $(button).addClass('btn--loading loading');
+      $(button).prop('disabled', true);
+
+      if ($(button).is('button')) {
         $(button).append(
           $(
             '<div class="btn__loading-icon">' +
@@ -471,12 +475,8 @@ $.entwine('ss', function($) {
           )
         );
 
-        $(button).css($(button).outerWidth() + "px");
+        $(button).css($(button).outerWidth() + 'px');
       }
-
-      // set button to "submitting" state
-      $(button).addClass('btn--loading loading');
-      $(button).prop('disabled', true);
 
       var beforeSubmitFormEventData = {
         // array of promises that must resolve({success:true}) before the form is submitted
@@ -522,18 +522,6 @@ $.entwine('ss', function($) {
         }
 
         self.trigger('submitform', {form: form, button: button});
-
-        if($(button).is('button')) {
-
-          $(button).append($(
-            '<div class="btn__loading-icon">'+
-              '<span class="btn__circle btn__circle--1"></span>'+
-              '<span class="btn__circle btn__circle--2"></span>'+
-              '<span class="btn__circle btn__circle--3"></span>'+
-            '</div>'));
-
-          $(button).css($(button).outerWidth() + 'px');
-        }
 
         // validate if required
         var validationResult = form.validate();
