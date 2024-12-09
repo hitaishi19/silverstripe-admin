@@ -471,7 +471,7 @@ $.entwine('ss', function($) {
               '<span class="btn__circle btn__circle--1"></span>' +
               '<span class="btn__circle btn__circle--2"></span>' +
               '<span class="btn__circle btn__circle--3"></span>' +
-              "</div>"
+              '</div>'
           )
         );
 
@@ -487,6 +487,14 @@ $.entwine('ss', function($) {
         onAjaxSuccessCallbacks: [],
       };
       form.trigger('beforesubmitform', beforeSubmitFormEventData);
+
+      var clearButton = function() {
+        $(button).removeClass('btn--loading loading');
+        $(button).prop('disabled', false);
+        $(button).find('.btn__loading-icon').remove();
+        $(button).css('width', 'auto');
+        $(button).text($(button).data('original-text'));
+      }
 
       Promise.all(beforeSubmitFormEventData.promises).then(function(results) {
 
@@ -525,14 +533,6 @@ $.entwine('ss', function($) {
 
         // validate if required
         var validationResult = form.validate();
-
-        var clearButton = function() {
-          $(button).removeClass('btn--loading loading');
-          $(button).prop('disabled', false);
-          $(button).find('.btn__loading-icon').remove();
-          $(button).css('width', 'auto');
-          $(button).text($(button).data('original-text'));
-        }
 
         if(typeof validationResult!=='undefined' && !validationResult) {
           statusMessage("Validation failed.", "bad");
